@@ -19,7 +19,7 @@ void openFile(ifstream& myFile){
     cout << "File is OPEN" << endl;
   }
 }
-void getMines(ifstream& myFile, char mines[row][column] ){
+void getBoard(ifstream& myFile, char mines[row][column] ){
   openFile(myFile);
   int k = 0;
   string line;
@@ -51,11 +51,11 @@ int main() {
 
   ifstream myFile;
   char mines[row][column];
+  char gameBoard[row][column];
 
-  getMines(myFile, mines);
+  getBoard(myFile, mines);
   displayBoard(mines);
   
   
   
 }
-
