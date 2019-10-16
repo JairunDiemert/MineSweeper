@@ -954,3 +954,13 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/visualstudio
+
+##########################
+#manual add by Jairun 
+*.sln
+*.vcxproj
+*.vcxproj.filers
+*.filters
+*.vcxproj.user
+*.user
+*.gif
