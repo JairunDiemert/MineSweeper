@@ -28,28 +28,57 @@ void getBoard(ifstream& myFile, char mines[row][column] ){
   openFile(myFile);
   int k = 0;
   string line;
-    while (getline(myFile, line)) {
-      for (int i = 0; i < column; ++i){
-        mines[k][i] = line[i];
-      }
-      ++k;
+  while (getline(myFile, line)) {
+    for (int i = 0; i < column; ++i){
+       mines[k][i] = line[i];
     }
+    ++k;
   }
-  void displayBoard(char board[row][column]){
-    cout << "\n";
-    cout << "   0  1  2  3" << endl;
-    cout << " +--+--+--+--+" << endl;
-    for (int i = 0; i < row; ++i){
-      cout << i;
-      for (int j = 0; j < column; ++j){
-          cout << "|" << board[i][j] << " ";
-      }
-    cout << "|";
-    cout << endl;
-    cout << " +--+--+--+--+" << endl;
+}
+void displayBoard(char board[row][column]){
+  cout << "\n";
+  cout << "   0  1  2  3" << endl;
+  cout << " +--+--+--+--+" << endl;
+  for (int i = 0; i < row; ++i){
+    cout << i;
+    for (int j = 0; j < column; ++j){
+        cout << "|" << board[i][j] << " ";
     }
+  cout << "|";
+  cout << endl;
+  cout << " +--+--+--+--+" << endl;
   }
-
+}
+void getMove(){
+    char clickType;
+    int rowChoice;
+    int columnChoice;
+    string choices;
+    bool go = true;
+    do{
+      cout << "\nChoose your next move(c or f) and cell, e.g. c 0 3 to click row zero column 3:";
+      getline(cin, choices);
+      cout << "\nYou entered: " << choices;
+      clickType = choices[0];
+      rowChoice = choices[2] - '0';
+      columnChoice = choices[4] - '0';
+      if (((clickType == 'c') ||
+          (clickType == 'C') ||
+          (clickType == 'f') ||
+          (clickType == 'F')) &&
+          (isdigit(choices[2]) != 0) &&
+          (isdigit(choices[4]) != 0) &&
+          (rowChoice < row) && 
+          (columnChoice < column))
+          {
+            cout << "\nThis entry is valid.\n";
+                go = false;
+          }
+          if (go){
+            cout << " \nYour entry does not match the format specified above, or you have gone outside the grid.\nPlease try again.\n";
+          }
+    }while(go);
+  }
 
 
 int main() {
@@ -69,36 +98,8 @@ int main() {
   displayBoard(mines);
   displayBoard(gameBoard);*/
 
-
+  getMove();
   
-  char clickType;
-  int rowChoice;
-  int columnChoice;
-  string choices;
-  bool go = true;
-  do{
-    cout << "\nChoose your next move(c or f) and cell, e.g. c 0 3 to click row zero column 3:";
-    getline(cin, choices);
-    cout << "\nYou entered: " << choices;
-    clickType = choices[0];
-    rowChoice = choices[2] - '0';
-    columnChoice = choices[4] - '0';
-    if (((clickType == 'c') ||
-        (clickType == 'C') ||
-        (clickType == 'f') ||
-        (clickType == 'F')) &&
-        (isdigit(choices[2]) != 0) &&
-        (isdigit(choices[4]) != 0) &&
-        (rowChoice < row) && 
-        (columnChoice < column))
-        {
-          cout << "\nThis entry is valid.\n";
-              go = false;
-        }
-        if (go){
-          cout << " \nYour entry does not match the format specified above, or you have gone outside the grid.\nPlease try again.\n";
-        }
-  }while(go);
 
 
   
