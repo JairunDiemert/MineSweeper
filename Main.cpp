@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
 using namespace std;
 
 int const row = 4;
@@ -53,7 +54,7 @@ void getBoard(ifstream& myFile, char mines[row][column] ){
 
 int main() {
 
-  ifstream mineFile;
+ /* ifstream mineFile;
   ifstream gameFile;
   char mines[row][column];
   char gameBoard[row][column];
@@ -66,7 +67,39 @@ int main() {
   cout << "\nGAME BOARD\n";
   getBoard(gameFile, gameBoard);
   displayBoard(mines);
-  displayBoard(gameBoard);
+  displayBoard(gameBoard);*/
+
+
+  
+  char clickType;
+  int rowChoice;
+  int columnChoice;
+  string choices;
+  bool go = true;
+  do{
+    cout << "\nChoose your next move(c or f) and cell, e.g. c 0 3 to click row zero column 3:";
+    getline(cin, choices);
+    cout << "\nYou entered: " << choices;
+    clickType = choices[0];
+    rowChoice = choices[2] - '0';
+    columnChoice = choices[4] - '0';
+    if (((clickType == 'c') ||
+        (clickType == 'C') ||
+        (clickType == 'f') ||
+        (clickType == 'F')) &&
+        (isdigit(choices[2]) != 0) &&
+        (isdigit(choices[4]) != 0) &&
+        (rowChoice < row) && 
+        (columnChoice < column))
+        {
+          cout << "\nThis entry is valid.\n";
+              go = false;
+        }
+        if (go){
+          cout << " \nYour entry does not match the format specified above, or you have gone outside the grid.\nPlease try again.\n";
+        }
+  }while(go);
+
 
   
   
