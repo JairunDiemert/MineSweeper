@@ -37,11 +37,11 @@ void getBoard(ifstream& myFile, char mines[row][column] ){
     for (int i = 0; i < row; ++i){
       cout << i;
       for (int j = 0; j < column; ++j){
-        cout << "|" << board[i][j] << " ";
+          cout << "|" << board[i][j] << " ";
       }
-      cout << "|";
-      cout << endl;
-      cout << " +--+--+--+--+" << endl;
+    cout << "|";
+    cout << endl;
+    cout << " +--+--+--+--+" << endl;
     }
   }
 
@@ -49,12 +49,21 @@ void getBoard(ifstream& myFile, char mines[row][column] ){
 
 int main() {
 
-  ifstream myFile;
+  ifstream mineFile;
+  ifstream gameFile;
   char mines[row][column];
   char gameBoard[row][column];
 
-  getBoard(myFile, mines);
+  char flag = 'F';
+  char bomb = 'X';
+
+  cout << "\nMINE BOARD\n";
+  getBoard(mineFile, mines);
+  cout << "\nGAME BOARD\n";
+  getBoard(gameFile, gameBoard);
   displayBoard(mines);
+  displayBoard(gameBoard);
+
   
   
   
