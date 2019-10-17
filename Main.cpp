@@ -83,21 +83,19 @@ void getMove(){
 
 int main() {
 
- /* ifstream mineFile;
+  ifstream mineFile;
   ifstream gameFile;
   char mines[row][column];
   char gameBoard[row][column];
-
-  char flag = 'F';
-  char bomb = 'X';
+  string foo;
 
   cout << "\nMINE BOARD\n";
   getBoard(mineFile, mines);
   cout << "\nGAME BOARD\n";
   getBoard(gameFile, gameBoard);
   displayBoard(mines);
-  displayBoard(gameBoard);*/
-
+  displayBoard(gameBoard);
+  getline(cin, foo);
   getMove();
   
 
