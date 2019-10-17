@@ -7,17 +7,21 @@ int const row = 4;
 int const column = 4;
 
 void openFile(ifstream& myFile){
+  bool go = true;
   string fileName;
-  cout << "File Name: ";
-  cin >> fileName;
-  
-  myFile.open(fileName.c_str());
-  if (!myFile.is_open()){
-    cout << "File open ERROR" << endl;
-  }
-  if (myFile.is_open()){
-    cout << "File is OPEN" << endl;
-  }
+  do{
+    cout << "File Name: ";
+    cin >> fileName;
+    
+    myFile.open(fileName.c_str());
+    if (!myFile.is_open()){
+      cout << "File open ERROR\n" << endl;
+    }
+    if (myFile.is_open()){
+      cout << "File is OPEN" << endl;
+      go = false;
+    }
+  }while(go);
 }
 void getBoard(ifstream& myFile, char mines[row][column] ){
   openFile(myFile);
