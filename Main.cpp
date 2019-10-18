@@ -231,21 +231,108 @@ Move getMove(){
     }
     return youWin;
   }
+  void recursiveSearch(char mines[row][column], char gameBoard[row][column], Move move){
+
+    if (gameBoard[move.getRowChoice()][move.getColumnChoice()] == '0'){
+      if ((move.getRowChoice() + 1 < row) &&
+          (move.getRowChoice() + 1 >= 0) &&
+          (gameBoard[move.getRowChoice() + 1][move.getColumnChoice()] == ' ')){
+            if (mines[move.getRowChoice() + 1][move.getColumnChoice()] != '*'){
+              Move moveIterate('C', move.getRowChoice() + 1, move.getColumnChoice());
+              int numMines = mineCounter(mines, moveIterate);
+              gameBoard[move.getRowChoice() + 1][move.getColumnChoice()] = numMines + '0';
+            }
+          }
+      if ((move.getColumnChoice() + 1 < row) &&
+          (move.getColumnChoice() + 1 >= 0) &&
+          (gameBoard[move.getRowChoice()][move.getColumnChoice() + 1] == ' ')){
+            if (mines[move.getRowChoice()][move.getColumnChoice() + 1] != '*'){
+              Move moveIterate('C', move.getRowChoice(), move.getColumnChoice() + 1);
+              int numMines = mineCounter(mines, moveIterate);
+              gameBoard[move.getRowChoice()][move.getColumnChoice() + 1] = numMines + '0';
+            }
+          }
+      if ((move.getRowChoice() - 1 < row) &&
+          (move.getRowChoice() - 1 >= 0) &&
+          (gameBoard[move.getRowChoice() - 1][move.getColumnChoice()] == ' ')){
+            if (mines[move.getRowChoice() - 1][move.getColumnChoice()] != '*'){
+              Move moveIterate('C', move.getRowChoice() - 1, move.getColumnChoice());
+              int numMines = mineCounter(mines, moveIterate);
+              gameBoard[move.getRowChoice() - 1][move.getColumnChoice()] = numMines + '0';
+            }
+          }
+      if ((move.getColumnChoice() - 1 < row) &&
+          (move.getColumnChoice() - 1 >= 0) &&
+          (gameBoard[move.getRowChoice()][move.getColumnChoice() - 1] == ' ')){
+            if (mines[move.getRowChoice()][move.getColumnChoice() - 1] != '*'){
+              Move moveIterate('C', move.getRowChoice(), move.getColumnChoice() - 1);
+              int numMines = mineCounter(mines, moveIterate);
+              gameBoard[move.getRowChoice()][move.getColumnChoice() - 1] = numMines + '0';
+            }
+          }
+      if ((move.getRowChoice() + 1 < row) &&
+          (move.getRowChoice() + 1 >= 0) &&
+          (move.getColumnChoice() + 1 < row) &&
+          (move.getColumnChoice() + 1 >= 0) &&
+          (gameBoard[move.getRowChoice() + 1][move.getColumnChoice() + 1] == ' ')){
+            if (mines[move.getRowChoice() + 1][move.getColumnChoice() + 1] != '*'){
+              Move moveIterate('C', move.getRowChoice() + 1, move.getColumnChoice() + 1);
+              int numMines = mineCounter(mines, moveIterate);
+              gameBoard[move.getRowChoice() + 1][move.getColumnChoice() + 1] = numMines + '0';
+            }
+          }
+      if ((move.getRowChoice() + 1 < row) &&
+          (move.getRowChoice() + 1 >= 0) &&
+          (move.getColumnChoice() - 1 < row) &&
+          (move.getColumnChoice() - 1 >= 0) &&
+          (gameBoard[move.getRowChoice() + 1][move.getColumnChoice() - 1] == ' ')){
+            if (mines[move.getRowChoice() + 1][move.getColumnChoice() - 1] != '*'){
+              Move moveIterate('C', move.getRowChoice() + 1, move.getColumnChoice() - 1);
+              int numMines = mineCounter(mines, moveIterate);
+              gameBoard[move.getRowChoice() + 1][move.getColumnChoice() - 1] = numMines + '0';
+            }
+          }
+      if ((move.getRowChoice() - 1 < row) &&
+          (move.getRowChoice() - 1 >= 0) &&
+          (move.getColumnChoice() + 1 < row) &&
+          (move.getColumnChoice() + 1 >= 0) &&
+          (gameBoard[move.getRowChoice() - 1][move.getColumnChoice() + 1] == ' ')){
+            if (mines[move.getRowChoice() - 1][move.getColumnChoice() + 1] != '*'){
+              Move moveIterate('C', move.getRowChoice() - 1, move.getColumnChoice() + 1);
+              int numMines = mineCounter(mines, moveIterate);
+              gameBoard[move.getRowChoice() - 1][move.getColumnChoice() + 1] = numMines + '0';
+            }
+          }
+      if ((move.getRowChoice() - 1 < row) &&
+          (move.getRowChoice() - 1 >= 0) &&
+          (move.getColumnChoice() - 1 < row) &&
+          (move.getColumnChoice() - 1 >= 0) &&
+          (gameBoard[move.getRowChoice() - 1][move.getColumnChoice() - 1] == ' ')){
+            if (mines[move.getRowChoice() - 1][move.getColumnChoice() - 1] != '*'){
+              Move moveIterate('C', move.getRowChoice() - 1, move.getColumnChoice() + 1);
+              int numMines = mineCounter(mines, moveIterate);
+              gameBoard[move.getRowChoice() - 1][move.getColumnChoice() - 1] = numMines + '0';
+            }
+          }
+    }
+}
   void setMove(char mines[row][column], char gameBoard[row][column], Move move, bool& gameOver){
     int numMines = mineCounter(mines, move);
     if (move.getClickType() == 'c' || move.getClickType() == 'C'){
       if (gameBoard[move.getRowChoice()][move.getColumnChoice()] == ' '){
         if (mines[move.getRowChoice()][move.getColumnChoice()] != '*'){
           gameBoard[move.getRowChoice()][move.getColumnChoice()] = numMines + '0';
+          recursiveSearch(mines, gameBoard, move);
         }
-      }
-      else if (gameBoard[move.getRowChoice()][move.getColumnChoice()] != ' '){
-        cout << "\nDuplicate entry.\nPlease try again.\n";
-      }
-      else{
+        else {
         cout << "\nYOU HIT A MINE\n  GAME OVER\n";
         gameOver = true;
+        }
       }
+      else {
+        cout << "\nDuplicate entry.\nPlease try again.\n";
+      }
+      
     }
     if (move.getClickType() == 'f' || move.getClickType() == 'F'){
       if (gameBoard[move.getRowChoice()][move.getColumnChoice()] == ' '){
@@ -255,10 +342,13 @@ Move getMove(){
       gameBoard[move.getRowChoice()][move.getColumnChoice()] = ' ';
       }
     }
-    gameOver = getGameStatus(mines, gameBoard);
+    if (!gameOver){
+      gameOver = getGameStatus(mines, gameBoard);
+    }
   }
   
 
+  
 int main() {
 
   ifstream mineFile;
@@ -278,6 +368,7 @@ int main() {
   do{
   move = getMove();
   setMove(mines, gameBoard, move, gameOver);
+
   if (!gameOver){
     displayBoard(gameBoard);
   }
