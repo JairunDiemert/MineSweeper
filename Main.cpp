@@ -150,6 +150,17 @@ Move getMove(){
       }
     }
   }
+  int getTotalMineCount(char board[row][column]){
+    int totalMines = 0;
+    for (int i = 0; i < row; ++i){
+      for (int j = 0; j < column; ++j){
+        if (board[i][j] == '*'){
+          ++totalMines;
+        }
+      }
+    }
+    return totalMines;
+  }
   
   int mineCounter(char mines[row][column], Move move){
     int numMines = 0;
@@ -203,6 +214,23 @@ Move getMove(){
     }
     return numMines;
   }
+  bool getGameStatus(char mines[row][column], char gameBoard[row][column]){
+    bool youWin = false;
+    int cellsLeft = 0;
+    int totalMines = getTotalMineCount(mines);
+    for (int i = 0; i < row; ++i){
+      for (int j = 0; j < column; ++j){
+        if ((gameBoard[i][j] == ' ') || (gameBoard[i][j] == 'F')){
+          ++cellsLeft;
+        }
+      }
+    }
+    if (cellsLeft == totalMines) {
+      cout << "\n\nYOU WIN\n\n";
+      youWin = true;
+    }
+    return youWin;
+  }
   void setMove(char mines[row][column], char gameBoard[row][column], Move move, bool& gameOver){
     int numMines = mineCounter(mines, move);
     if (move.getClickType() == 'c' || move.getClickType() == 'C'){
@@ -227,8 +255,9 @@ Move getMove(){
       gameBoard[move.getRowChoice()][move.getColumnChoice()] = ' ';
       }
     }
-
+    gameOver = getGameStatus(mines, gameBoard);
   }
+  
 
 int main() {
 
@@ -238,7 +267,6 @@ int main() {
   string foo;
   Move move;
   bool gameOver = false;
-
 
   cout << "\nMINE BOARD\n";
   getBoard(mineFile, mines);
