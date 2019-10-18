@@ -114,6 +114,7 @@ Move getMove(){
     int columnChoice;
     string choices;
     bool go = true;
+
     do{
       cout << "\nChoose your next move(c or f) and cell, e.g. c 0 3 to click row zero column 3:";
       getline(cin, choices);
@@ -150,7 +151,21 @@ Move getMove(){
       }
     }
   }
+  void setMove(char mines[row][column], char gameBoard[row][column], Move move, bool& gameOver){
+    if (move.getClickType() == 'c' || move.getClickType() == 'C'){
+      if (mines[move.getRowChoice()][move.getColumnChoice()] != '*'){
+        gameBoard[move.getRowChoice()][move.getColumnChoice()] = 'C';
+      }
+      else{
+        cout << "\nYOU HIT A MINE\n  GAME OVER\n";
+        gameOver = true;
+      }
+    }
+    if (move.getClickType() == 'f' || move.getClickType() == 'F'){
+      gameBoard[move.getRowChoice()][move.getColumnChoice()] = 'F';
+    }
 
+  }
 
 int main() {
 
@@ -159,13 +174,22 @@ int main() {
   char gameBoard[row][column];
   string foo;
   Move move;
+  bool gameOver = false;
 
 
   cout << "\nMINE BOARD\n";
   getBoard(mineFile, mines);
   setBoard(gameBoard);
-  //displayBoard(mines); here to display location of mines when needed
+  displayBoard(mines); //here to display location of mines when needed
   displayBoard(gameBoard);
   getline(cin, foo);
+
+  do{
   move = getMove();
+  setMove(mines, gameBoard, move, gameOver);
+  if (!gameOver){
+    displayBoard(gameBoard);
+  }
+  }while(!gameOver);
+  
 }
