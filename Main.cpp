@@ -7,6 +7,65 @@ using namespace std;
 int const row = 4;
 int const column = 4;
 
+class Move 
+{ 
+    public: 
+    char clickType;
+    int rowChoice;
+    int columnChoice;
+
+    Move();
+    Move(char click, int row, int column);
+    void setClickType(char click);
+    void setRowChoice(int row);
+    void setColumnChoice(int column);
+    char getClickType();
+    int getRowChoice();
+    int getColumnChoice();
+    string getMoveString();
+}; 
+
+Move::Move(){
+  setClickType('_');
+  setRowChoice(-1);
+  setColumnChoice(-1);
+}   
+Move::Move(char click, int row, int column){
+  setClickType(click);
+  setRowChoice(row);
+  setColumnChoice(column);
+}
+void Move::setClickType(char click) 
+{ 
+    clickType = click;  
+}
+void Move::setRowChoice(int row) 
+{ 
+    rowChoice = row;  
+}
+void Move::setColumnChoice(int column) 
+{ 
+    columnChoice = column;  
+} 
+char Move::getClickType(){
+  return clickType;
+}
+int Move::getRowChoice(){
+  return rowChoice;
+}
+int Move::getColumnChoice(){
+  return columnChoice;
+}
+string Move::getMoveString(){
+  string moveValues = "";
+  moveValues += getClickType();
+  moveValues += " ";
+  moveValues += getRowChoice() + '0';
+  moveValues += " ";
+  moveValues += getColumnChoice() + '0';
+  return moveValues;
+}
+
 void openFile(ifstream& myFile){
   bool go = true;
   string fileName;
@@ -49,7 +108,7 @@ void displayBoard(char board[row][column]){
   cout << " +--+--+--+--+" << endl;
   }
 }
-void getMove(){
+Move getMove(){
     char clickType;
     int rowChoice;
     int columnChoice;
@@ -69,9 +128,9 @@ void getMove(){
           (isdigit(choices[2]) != 0) &&
           (isdigit(choices[4]) != 0) &&
           (rowChoice < row) &&
-          (rowChoice > 0) && 
+          (rowChoice >= 0) && 
           (columnChoice < column) &&
-          (columnChoice > 0))
+          (columnChoice >= 0))
           {
             cout << "\nThis entry is valid.\n";
                 go = false;
@@ -80,6 +139,9 @@ void getMove(){
             cout << " \nYour entry does not match the format specified above, or you have gone outside the grid.\nPlease try again.\n";
           }
     }while(go);
+    Move move(clickType, rowChoice, columnChoice);
+    //cout << "\n\n" << clickType << " " << rowChoice << " " << columnChoice; keep her to display return value when needed.
+    return move;
   }
   void setBoard(char board[row][column]){
     for (int i = 0; i < row; ++i){
@@ -93,26 +155,17 @@ void getMove(){
 int main() {
 
   ifstream mineFile;
-  //ifstream gameFile;
   char mines[row][column];
   char gameBoard[row][column];
   string foo;
+  Move move;
 
-  
 
   cout << "\nMINE BOARD\n";
   getBoard(mineFile, mines);
-  //cout << "\nGAME BOARD\n";
-  //getBoard(gameFile, gameBoard);
   setBoard(gameBoard);
-  displayBoard(mines);
+  //displayBoard(mines); here to display location of mines when needed
   displayBoard(gameBoard);
   getline(cin, foo);
-  getMove();
-  
-
-
-  
-  
-  
+  move = getMove();
 }
