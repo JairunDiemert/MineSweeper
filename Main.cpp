@@ -133,7 +133,6 @@ Move getMove(){
           (columnChoice < column) &&
           (columnChoice >= 0))
           {
-            cout << "\nThis entry is valid.\n";
                 go = false;
           }
           if (go){
@@ -207,20 +206,26 @@ Move getMove(){
   void setMove(char mines[row][column], char gameBoard[row][column], Move move, bool& gameOver){
     int numMines = mineCounter(mines, move);
     if (move.getClickType() == 'c' || move.getClickType() == 'C'){
-      if (mines[move.getRowChoice()][move.getColumnChoice()] != '*'){
-        gameBoard[move.getRowChoice()][move.getColumnChoice()] = numMines + '0';
+      if (gameBoard[move.getRowChoice()][move.getColumnChoice()] == ' '){
+        if (mines[move.getRowChoice()][move.getColumnChoice()] != '*'){
+          gameBoard[move.getRowChoice()][move.getColumnChoice()] = numMines + '0';
+        }
+      }
+      else if (gameBoard[move.getRowChoice()][move.getColumnChoice()] != ' '){
+        cout << "\nDuplicate entry.\nPlease try again.\n";
       }
       else{
         cout << "\nYOU HIT A MINE\n  GAME OVER\n";
         gameOver = true;
       }
     }
-    if ((move.getClickType() == 'f' || move.getClickType() == 'F') &&
-       (gameBoard[move.getRowChoice()][move.getColumnChoice()] == ' ')){
+    if (move.getClickType() == 'f' || move.getClickType() == 'F'){
+      if (gameBoard[move.getRowChoice()][move.getColumnChoice()] == ' '){
         gameBoard[move.getRowChoice()][move.getColumnChoice()] = 'F';
-    }
-    else{
+      }
+      else{
       gameBoard[move.getRowChoice()][move.getColumnChoice()] = ' ';
+      }
     }
 
   }
