@@ -152,6 +152,7 @@ Move getMove(){
     }
   }
   void setMove(char mines[row][column], char gameBoard[row][column], Move move, bool& gameOver){
+    int numMines = 0;
     if (move.getClickType() == 'c' || move.getClickType() == 'C'){
       if (mines[move.getRowChoice()][move.getColumnChoice()] != '*'){
         gameBoard[move.getRowChoice()][move.getColumnChoice()] = 'C';
@@ -165,6 +166,58 @@ Move getMove(){
       gameBoard[move.getRowChoice()][move.getColumnChoice()] = 'F';
     }
 
+  }
+  int mineCounter(char mines[row][column], Move move){
+    int numMines = 0;
+    if ((move.getRowChoice() + 1 < row) &&
+        (move.getRowChoice() + 1 >= 0) &&
+        (mines[move.getRowChoice() + 1][move.getColumnChoice()] == '*')){
+        ++numMines;
+    }
+    if ((move.getColumnChoice() + 1 < row) &&
+        (move.getColumnChoice() + 1 >= 0) &&
+        (mines[move.getRowChoice()][move.getColumnChoice() + 1] == '*')){
+        ++numMines;
+    }
+    if ((move.getRowChoice() - 1 < row) &&
+        (move.getRowChoice() - 1 >= 0) &&
+        (mines[move.getRowChoice() - 1][move.getColumnChoice()] == '*')){
+        ++numMines;
+    }
+    if ((move.getColumnChoice() - 1 < row) &&
+        (move.getColumnChoice() - 1 >= 0) &&
+        (mines[move.getRowChoice()][move.getColumnChoice() - 1] == '*')){
+        ++numMines;
+    }
+    if ((move.getRowChoice() + 1 < row) &&
+        (move.getRowChoice() + 1 >= 0) &&
+        (move.getColumnChoice() + 1 < row) &&
+        (move.getColumnChoice() + 1 >= 0) &&
+        (mines[move.getRowChoice() + 1][move.getColumnChoice() + 1] == '*')){
+        ++numMines;
+    }
+    if ((move.getRowChoice() + 1 < row) &&
+        (move.getRowChoice() + 1 >= 0) &&
+        (move.getColumnChoice() - 1 < row) &&
+        (move.getColumnChoice() - 1 >= 0) &&
+        (mines[move.getRowChoice() + 1][move.getColumnChoice() - 1] == '*')){
+        ++numMines;
+    }
+    if ((move.getRowChoice() - 1 < row) &&
+        (move.getRowChoice() - 1 >= 0) &&
+        (move.getColumnChoice() + 1 < row) &&
+        (move.getColumnChoice() + 1 >= 0) &&
+        (mines[move.getRowChoice() - 1][move.getColumnChoice() + 1] == '*')){
+        ++numMines;
+    }
+    if ((move.getRowChoice() - 1 < row) &&
+        (move.getRowChoice() - 1 >= 0) &&
+        (move.getColumnChoice() - 1 < row) &&
+        (move.getColumnChoice() - 1 >= 0) &&
+        (mines[move.getRowChoice() - 1][move.getColumnChoice() - 1] == '*')){
+        ++numMines;
+    }
+    return numMines;
   }
 
 int main() {
@@ -186,6 +239,7 @@ int main() {
 
   do{
   move = getMove();
+  cout << "\n\n" << mineCounter(mines, move) << "\n\n";
   setMove(mines, gameBoard, move, gameOver);
   if (!gameOver){
     displayBoard(gameBoard);
