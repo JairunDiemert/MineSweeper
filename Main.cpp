@@ -68,8 +68,10 @@ void getMove(){
           (clickType == 'F')) &&
           (isdigit(choices[2]) != 0) &&
           (isdigit(choices[4]) != 0) &&
-          (rowChoice < row) && 
-          (columnChoice < column))
+          (rowChoice < row) &&
+          (rowChoice > 0) && 
+          (columnChoice < column) &&
+          (columnChoice > 0))
           {
             cout << "\nThis entry is valid.\n";
                 go = false;
@@ -79,20 +81,30 @@ void getMove(){
           }
     }while(go);
   }
+  void setBoard(char board[row][column]){
+    for (int i = 0; i < row; ++i){
+      for (int j = 0; j < column; ++j){
+        board[i][j] = ' ';
+      }
+    }
+  }
 
 
 int main() {
 
   ifstream mineFile;
-  ifstream gameFile;
+  //ifstream gameFile;
   char mines[row][column];
   char gameBoard[row][column];
   string foo;
 
+  
+
   cout << "\nMINE BOARD\n";
   getBoard(mineFile, mines);
-  cout << "\nGAME BOARD\n";
-  getBoard(gameFile, gameBoard);
+  //cout << "\nGAME BOARD\n";
+  //getBoard(gameFile, gameBoard);
+  setBoard(gameBoard);
   displayBoard(mines);
   displayBoard(gameBoard);
   getline(cin, foo);
