@@ -151,22 +151,7 @@ Move getMove(){
       }
     }
   }
-  void setMove(char mines[row][column], char gameBoard[row][column], Move move, bool& gameOver){
-    int numMines = 0;
-    if (move.getClickType() == 'c' || move.getClickType() == 'C'){
-      if (mines[move.getRowChoice()][move.getColumnChoice()] != '*'){
-        gameBoard[move.getRowChoice()][move.getColumnChoice()] = 'C';
-      }
-      else{
-        cout << "\nYOU HIT A MINE\n  GAME OVER\n";
-        gameOver = true;
-      }
-    }
-    if (move.getClickType() == 'f' || move.getClickType() == 'F'){
-      gameBoard[move.getRowChoice()][move.getColumnChoice()] = 'F';
-    }
-
-  }
+  
   int mineCounter(char mines[row][column], Move move){
     int numMines = 0;
     if ((move.getRowChoice() + 1 < row) &&
@@ -219,6 +204,26 @@ Move getMove(){
     }
     return numMines;
   }
+  void setMove(char mines[row][column], char gameBoard[row][column], Move move, bool& gameOver){
+    int numMines = mineCounter(mines, move);
+    if (move.getClickType() == 'c' || move.getClickType() == 'C'){
+      if (mines[move.getRowChoice()][move.getColumnChoice()] != '*'){
+        gameBoard[move.getRowChoice()][move.getColumnChoice()] = numMines + '0';
+      }
+      else{
+        cout << "\nYOU HIT A MINE\n  GAME OVER\n";
+        gameOver = true;
+      }
+    }
+    if ((move.getClickType() == 'f' || move.getClickType() == 'F') &&
+       (gameBoard[move.getRowChoice()][move.getColumnChoice()] == ' ')){
+        gameBoard[move.getRowChoice()][move.getColumnChoice()] = 'F';
+    }
+    else{
+      gameBoard[move.getRowChoice()][move.getColumnChoice()] = ' ';
+    }
+
+  }
 
 int main() {
 
@@ -239,7 +244,6 @@ int main() {
 
   do{
   move = getMove();
-  cout << "\n\n" << mineCounter(mines, move) << "\n\n";
   setMove(mines, gameBoard, move, gameOver);
   if (!gameOver){
     displayBoard(gameBoard);
